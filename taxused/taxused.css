@@ -1,0 +1,99 @@
+body{
+  background-color: #0a0b2b;
+}
+
+h1 {
+  font-size: 32px;
+  color: #f4b8b8;
+  padding-left: 5%;
+  
+}
+
+i{
+  margin-right: 25px;
+}
+
+.top{
+  display: flex; 
+  background-color: rgb(23, 23, 124);
+  border-radius: 25px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.infobox{
+  width: auto;
+  margin: 5%;
+  background-color: whitesmoke;
+  border-radius: 25px;
+}
+
+p{
+  margin: 5%;
+  padding: 5%;
+  color: blue;
+}
+
+.recievedtable{
+      width: 95%; /* Set the desired width for the box */
+      height: auto; /* Se the desired height for the box */
+      background-color: #ccc; /* Set a background color for visualization */
+      margin: 0 auto; /* Set the left and right margins to "auto" */
+      top: 0; /* Position the box at the vertical center */
+      bottom: 0;
+      left: 0; /* Position the box at the horizontal center */
+      right: 0;
+      border-radius: 25px;
+      padding-bottom: 100px;
+}
+
+.options {
+  text-align: center;
+  background-color: #100f0f;
+  padding: 20px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+p {
+  font-size: 18px;
+  color: #bf7979;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  display: inline-block;
+  margin: 0 10px;
+}
+
+a {
+  text-decoration: none;
+  color: #c8c6b3;
+  font-weight: bold;
+}
+
+a:hover {
+  color: #ff0000;
+}
+
+#data-table {
+  margin-top: 20px;
+  border-collapse: collapse;
+  border-radius: 25px;
+  width: 100%;
+}
+#data-table th, #data-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+  
+}
+#data-table th {
+  background-color: #f2f2f2;
+  
+}

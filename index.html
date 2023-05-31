@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Signin/Signup</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://kit.fontawesome.com/75c600d4ed.js" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div class="container">
+    <div class="form-box">
+      <h1 id="title">Sign Up</h1>
+      <form>
+        <div class="input-group">
+          <div class="input-field" id="nameField">
+            <i class="fa-solid fa-user"></i>
+            <input type="text" id="username" placeholder="Name">
+
+          </div>
+
+          <div class="input-field">
+            <i class="fa-solid fa-envelope"></i>
+            <input type="email" id="email" placeholder="Email">
+
+          </div>
+          <div class="input-field">
+            <i class="fa-solid fa-lock"></i>
+            <input type="password" id="password" placeholder="Password">
+          </div>
+          <p id="lost">Lost password <a href="#">Click Here!</a></p>
+        </div>
+        <div class="btn-field">
+          <button type="button" id="signupbtn">Sing up</button>
+          <button type="button" id="signinbtn" class="disable">Sign in</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+
+<script>
+
+let signupbtn = document.getElementById("signupbtn");
+let signinbtn = document.getElementById("signinbtn");
+let nameField = document.getElementById("nameField");
+let title = document.getElementById("title");
+let lost = document.getElementById("lost");
+
+signinbtn.onclick=function(){
+  nameField.style.maxHeight="0px";    
+  lost.style.maxHeight="65px";
+  title.innerHTML="Sign In";
+  signupbtn.classList.add("disable");
+  signinbtn.classList.remove("disable");
+
+}
+
+signupbtn.onclick=function(){
+  nameField.style.maxHeight="65px";  
+  lost.style.maxHeight="0";  
+  title.innerHTML="Sign Up";
+  signupbtn.classList.remove("disable");
+  signinbtn.classList.add("disable");
+
+}
+
+</script>
+
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
+  import { getDatabase, set, ref, update} from "https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js";
+  import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
+
+
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+
+  
+
+  // Your web app's Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyCRN27IYfOe3txoaxuEs2K_xGkgWPqmg_U",
+    authDomain: "easy-tax-555b2.firebaseapp.com",
+    databaseURL: "https://easy-tax-555b2-default-rtdb.firebaseio.com",
+    projectId: "easy-tax-555b2",
+    storageBucket: "easy-tax-555b2.appspot.com",
+    messagingSenderId: "867711716030",
+    appId: "1:867711716030:web:778ff53d1557af75f06cef"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const database = getDatabase(app);
+  const auth = getAuth();
+
+  signupbtn.addEventListener('click' ,(e) => {
+
+    var email = document.getElementById('email').value;
+    var password = document.getElementById('password').value;
+    var username = document.getElementById('username').value;
+
+    createUserWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      // Signed in 
+      const user = userCredential.user;
+      
+      set(ref(database, 'user/' + user.uid),{
+        username : username,
+        email : email
+
+      })
+
+      alert('userCreated');
+      // to do after creating user 
+      // ...
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+
+      alert(errorMessage);
+      // ..
+    });
+
+  });
+
+  signinbtn.addEventListener('click', (e) => {
+
+    var email = document.getElementById('email').value;
+    var password = document.getElementById('password').value;
+
+    signInWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      // Signed in 
+      const user = userCredential.user;
+      const dt = new Date();
+      update(ref(database, 'user/' + user.uid),{
+        last_login : dt,
+      })
+
+      alert('User loged in');
+      window.location.href = './home/home.html'
+      // ...
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      alert(errorMessage);
+
+    });
+  })
+
+</script>
+
+</html>

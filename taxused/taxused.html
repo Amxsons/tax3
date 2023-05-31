@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tax Recieved</title>
+  <link rel="stylesheet" href="taxused.css">
+  <script src="https://kit.fontawesome.com/75c600d4ed.js" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" integrity="sha512-r22gChDnGvBylk90+2e/ycr3RVrDi8DIOkIGNhJlKfuyQM4tIRAI062MaV8sfjQKYVGjOBaZBOA87z+IhZE9DA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+</head>
+<body>
+  <div class="top">
+    <h1>Tax </h1>
+    <a href="../index.html">
+      <i  class="fa-solid fa-right-from-bracket" style="color: #ffffff;"></i>
+    </a>
+  </div>
+  <div class="infobox">
+    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting</p>
+  </div>
+  <div class="recievedtable">
+    <table id="data-table">
+      <table id="data-table"></table>
+    </table>
+  </div>
+  
+  <div class="options">
+    <ul>
+        <li><a href="../home/home.html">HOME</a></li>
+        <li><a href="../taxrecieved/taxrecieved.html">TAX RECIEVED</a></li>
+        <li><a href="../taxused/taxused.html">TAX USED</a></li>
+        <li><a href="#">CONTRACTORS</a></li>
+    </ul>
+  </div>
+
+  <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+    <script>
+        var url = 'taxused.xlsx';
+        var sheetName = 'Sheet1';
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', url, true);
+        xhr.responseType = 'arraybuffer';
+
+        xhr.onload = function(e) {
+            var data = new Uint8Array(xhr.response);
+            var workbook = XLSX.read(data, { type: 'array' });
+
+            var worksheet = workbook.Sheets[sheetName];
+            var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+
+            var table = document.getElementById('data-table');
+            table.innerHTML = '';
+
+            // Generate the table header
+            var thead = document.createElement('thead');
+            var headerRow = document.createElement('tr');
+            jsonData[0].forEach(function(cellData) {
+                var th = document.createElement('th');
+                th.textContent = cellData;
+                headerRow.appendChild(th);
+            });
+            thead.appendChild(headerRow);
+            table.appendChild(thead);
+
+            // Generate the table rows
+            var tbody = document.createElement('tbody');
+            for (var i = 1; i < jsonData.length; i++) {
+                var row = document.createElement('tr');
+                jsonData[i].forEach(function(cellData) {
+                    var td = document.createElement('td');
+                    td.textContent = cellData;
+                    row.appendChild(td);
+                });
+                tbody.appendChild(row);
+            }
+            table.appendChild(tbody);
+        };
+
+        xhr.send();
+    </script>
+
+
+</body>
+</html>
